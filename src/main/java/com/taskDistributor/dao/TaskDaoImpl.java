@@ -21,4 +21,11 @@ public class TaskDaoImpl implements TaskDao {
         String sql = "SELECT * FROM task";
         return jdbcTemplate.query(sql, new TaskMapper());
     }
+
+    @Override
+    public void save(Task task) {
+        String sql = "INSERT INTO task (assignee,summary,startDate,endDate) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql,task.getAssignee(),task.getSummary(),task.getStartDate(),task.getEndDate());
+
+    }
 }

@@ -13,7 +13,13 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     public TaskDao taskDao;
 
+    @Override
     public List<Task> findAll() {
         return taskDao.findAll();
+    }
+
+    @Override
+    public void save(Task task) {
+        taskDao.save(task);
     }
 }
