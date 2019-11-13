@@ -22,12 +22,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         bean.setPrefix("/WEB-INF/views/");
         return bean;
     }
-//    @Bean
-//    public ViewResolver resourceBundleViewResolver() {
-//        ResourceBundleViewResolver bean = new ResourceBundleViewResolver();
-//        bean.setBasename("views");
-//        return bean;
-//    }
-
-
 }
