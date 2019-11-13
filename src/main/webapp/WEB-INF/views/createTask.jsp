@@ -5,6 +5,7 @@
     <title>Create Task</title>
 </head>
 <body>
+<h4>${message}</h4>
 <form method="post" action="add">
     <input type="hidden" name="""${_csrf.parameterName}" value="${_csrf.token}"/>
     <input type="text" name="summary" placeholder="enter summary"/>

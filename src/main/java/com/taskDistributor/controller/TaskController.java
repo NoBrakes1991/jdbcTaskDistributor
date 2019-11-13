@@ -50,18 +50,22 @@ public class TaskController {
 
     @PostMapping("add")
     public String add(@RequestParam String summary, @RequestParam String assignee, @RequestParam Date startDate, @RequestParam Date endDate, Map<String, Object> model) {
-        Task task = new Task(summary, startDate, endDate, assignee);
-        System.out.println(summary + " " + assignee + " " + startDate + " " + endDate);
-        System.out.println(task.getAssignee());
-        taskService.save(task);
+        if (startDate == null || endDate == null || assignee.isEmpty() || summary.isEmpty() || startDate.after(endDate)) {
+            model.put("message", "You choose incorrect parameters! Please, check: 1)All fields is not Empty; 2) End date >= Start date.");
+            return "createTask";
+        } else {
+            Task task = new Task(summary, startDate, endDate, assignee);
+            System.out.println(summary + " " + assignee + " " + startDate + " " + endDate);
+            System.out.println(task.getAssignee());
+            taskService.save(task);
 
-        Iterable<Task> tasks = taskService.findAll();
-        uniqAssignee.add(task.getAssignee());
-        model.put("uniqAssignee", uniqAssignee);
-        model.put("tasks", tasks);
-        return "redirect:/index";
+            Iterable<Task> tasks = taskService.findAll();
+            uniqAssignee.add(task.getAssignee());
+            model.put("uniqAssignee", uniqAssignee);
+            model.put("tasks", tasks);
+            return "redirect:/index";
+        }
     }
-
 //    @PostMapping("filterByAssignee")
 //    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
 //        List<Task> tasks;
