@@ -27,9 +27,6 @@
             <fmt:setLocale value="en_US"/>
             <td><fmt:formatDate pattern="dd/MMM/yyyy" value="${task.startDate}"/></td>
             <td><fmt:formatDate pattern="dd/MMM/yyyy" value="${task.endDate}"/></td>
-            <td>${task.startDate}</td>
-            <td>${task.endDate}</td>
-
             <td>${task.assignee}</td>
         </tr>
     </c:forEach>
