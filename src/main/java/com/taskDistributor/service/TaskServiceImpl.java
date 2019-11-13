@@ -22,4 +22,9 @@ public class TaskServiceImpl implements TaskService {
     public void save(Task task) {
         taskDao.save(task);
     }
+
+    @Override
+    public List<Task> findByAssignee(String assignee) {
+        return taskDao.findByAssignee(assignee);
+    }
 }

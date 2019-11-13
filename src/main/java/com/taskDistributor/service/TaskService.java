@@ -8,4 +8,5 @@ public interface TaskService {
 
     List<Task> findAll();
     void save(Task task);
+    List<Task> findByAssignee(String assignee);
 }

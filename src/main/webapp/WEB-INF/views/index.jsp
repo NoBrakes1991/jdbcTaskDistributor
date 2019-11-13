@@ -12,26 +12,38 @@
 </head>
 <body>
 <h1>Tasks List</h1>
-<form method="post" action="filterByDateAndAssignee">
-    Start date: <input type="date" name="startDate">
-    End date: <input type="date" name="endDate">
-    <select name="period" itemtype="text">
-        <option value="" label="------Set Period------"/>
-        <option value="lastQuarter" label="Last Quarter"/>
-        <option value="lastMonth" label="Last Month"/>
-        <option value="lastWeek" label="Last Week"/>
-        <option value="currentQuarterToDate" label="Current Quarter to Date"/>
-        <option value="currentMonthToDate" label="Current Month to Date"/>
-        <option value="currentWeekToDate" label="Current Week to Date"/>
-    </select>
+
+<form method="post" action="filterByAssignee">
     <select name="assignee" itemtype="text">
         <option value="" label="All assignees"/>
-        <c:forEach items="${assignee}" var="assignee">
+        <c:forEach items="${uniqAssignee}" var="assignee">
             <option value="${assignee}"><c:out value="${assignee}"/></option>
         </c:forEach>
     </select>
     <button type="submit">Find</button>
 </form>
+
+
+<%--<form method="post" action="filterByDateAndAssignee">--%>
+<%--Start date: <input type="date" name="startDate">--%>
+<%--End date: <input type="date" name="endDate">--%>
+<%--<select name="period" itemtype="text">--%>
+<%--<option value="" label="------Set Period------"/>--%>
+<%--<option value="lastQuarter" label="Last Quarter"/>--%>
+<%--<option value="lastMonth" label="Last Month"/>--%>
+<%--<option value="lastWeek" label="Last Week"/>--%>
+<%--<option value="currentQuarterToDate" label="Current Quarter to Date"/>--%>
+<%--<option value="currentMonthToDate" label="Current Month to Date"/>--%>
+<%--<option value="currentWeekToDate" label="Current Week to Date"/>--%>
+<%--</select>--%>
+<%--<select name="assignee" itemtype="text">--%>
+<%--<option value="" label="All assignees"/>--%>
+<%--<c:forEach items="${assignee}" var="assignee">--%>
+<%--<option value="${assignee}"><c:out value="${assignee}"/></option>--%>
+<%--</c:forEach>--%>
+<%--</select>--%>
+<%--<button type="submit">Find</button>--%>
+<%--</form>--%>
 <br>
 <table>
     <tr>
@@ -52,10 +64,7 @@
         </tr>
     </c:forEach>
 </table>
-<a href="/addTask">Add Task</a>
-
-
-
+<a href="${pageContext.request.contextPath}/createTask">Add Task</a>
 
 
 </body>

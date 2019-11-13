@@ -23,6 +23,12 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
+    public List<Task> findByAssignee(String assignee) {
+        String sql = "SELECT * FROM task where assignee=?";
+        return jdbcTemplate.query(sql, new TaskMapper(), assignee);
+    }
+
+    @Override
     public void save(Task task) {
         String sql = "INSERT INTO task (assignee,summary,startDate,endDate) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql,task.getAssignee(),task.getSummary(),task.getStartDate(),task.getEndDate());

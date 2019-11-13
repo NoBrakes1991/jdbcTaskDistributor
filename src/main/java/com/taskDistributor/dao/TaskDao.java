@@ -10,4 +10,5 @@ public interface TaskDao {
 
     List<Task> findAll();
 
+    List<Task> findByAssignee(String assignee);
 }
