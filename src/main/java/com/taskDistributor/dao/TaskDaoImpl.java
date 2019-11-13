@@ -5,6 +5,7 @@ import com.taskDistributor.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 public class TaskDaoImpl implements TaskDao {
@@ -33,5 +34,17 @@ public class TaskDaoImpl implements TaskDao {
         String sql = "INSERT INTO task (assignee,summary,startDate,endDate) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql,task.getAssignee(),task.getSummary(),task.getStartDate(),task.getEndDate());
 
+    }
+
+    @Override
+    public List<Task> findByStartDateAndEndDate(Date startDate, Date endDate) {
+        String sql = "SELECT * FROM task where startDate >=? and endDate <=?";
+        return jdbcTemplate.query(sql, new TaskMapper(), startDate,endDate);
+    }
+
+    @Override
+    public List<Task> findByAssigneeStartDateAndEndDate(String assignee, Date startDate, Date endDate) {
+        String sql = "SELECT * FROM task where startDate >=? and endDate <=? and assignee=?";
+        return jdbcTemplate.query(sql, new TaskMapper(), startDate,endDate,assignee);
     }
 }

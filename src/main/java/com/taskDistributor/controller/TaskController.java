@@ -66,20 +66,6 @@ public class TaskController {
             return "redirect:/index";
         }
     }
-//    @PostMapping("filterByAssignee")
-//    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
-//        List<Task> tasks;
-//
-//        if (assignee != null && !assignee.isEmpty()) {
-//            tasks = taskService.findByAssignee(assignee);
-//        } else {
-//            tasks = taskService.findAll();
-//        }
-//
-//        model.put("tasks", tasks);
-//        model.put("uniqAssignee", uniqAssignee);
-//        return "index";
-//    }
 
     @PostMapping("filterByDateAndAssignee")
     public String filterDateAndAssignee(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam String period, @RequestParam String assignee, Map<String, Object> model) {
@@ -92,10 +78,10 @@ public class TaskController {
 
         if (startDate == null && endDate == null && !assignee.isEmpty()) {
             tasks = taskService.findByAssignee(assignee);
-//        } else if (startDate != null && endDate != null && !assignee.isEmpty()) {
-//            tasks = taskService.findByAssigneeAndStartDateBeforeAndEndDateAfterOrAssigneeAndStartDateOrAssigneeAndEndDate(assignee, endDate, startDate, assignee, startDate, assignee, endDate);
-//        } else if (startDate != null && endDate != null && assignee.isEmpty()) {
-//            tasks = taskService.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(endDate, startDate, endDate, startDate);
+        } else if (startDate != null && endDate != null && !assignee.isEmpty()) {
+            tasks = taskService.findByAssigneeStartDateAndEndDate(assignee, startDate, endDate);
+        } else if (startDate != null && endDate != null && assignee.isEmpty()) {
+            tasks = taskService.findByStartDateAndEndDate(startDate, endDate);
         } else {
             tasks = taskService.findAll();
         }
