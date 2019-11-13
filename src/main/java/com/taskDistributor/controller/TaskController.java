@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 @RequestMapping("/")
@@ -33,16 +32,25 @@ public class TaskController {
         return "index";
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
-
     @GetMapping("/tasks")
     public String getAllTasks(Model model){
-        model.addAttribute("tasks", taskService.findAll());
+        List<Task>  tasks = taskService.findAll();
+        Set <String> assignee= new HashSet<String>();
+        for (int i = 0; i < tasks.size(); i++) {
+            assignee.add(tasks.get(i).getAssignee());
+        }
+        model.addAttribute("assignee",assignee);
+        model.addAttribute("tasks", tasks);
+
+
         return "tasksList";
     }
+
+//    @PostMapping("filterByAssignee")
+//    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model){
+//
+//
+//    }
 
     @GetMapping("/addTask")
     public String createTaskPage(){
@@ -52,7 +60,10 @@ public class TaskController {
 
     @PostMapping("/addTask")
     public String addTask(@ModelAttribute("task")Task task){
+        if (task.getSummary().isEmpty()||task.getAssignee().isEmpty()||task.getEndDate()==null||task.getStartDate()==null){
+            return "createTask";
+        }else {
         taskService.save(task);
-        return "redirect:/tasks";
+        return "redirect:/tasks";}
     }
 }
