@@ -1,6 +1,9 @@
 package com.taskDistributor.controller;
 
 import com.taskDistributor.entity.Task;
+import com.taskDistributor.service.EndDayReplace;
+import com.taskDistributor.service.MessageSelectedFilter;
+import com.taskDistributor.service.StartDayReplace;
 import com.taskDistributor.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -59,27 +62,47 @@ public class TaskController {
         return "redirect:/index";
     }
 
-    @PostMapping("filterByAssignee")
-    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
-        List<Task> tasks;
+//    @PostMapping("filterByAssignee")
+//    public String filterByAssignee(@RequestParam String assignee, Map<String, Object> model) {
+//        List<Task> tasks;
+//
+//        if (assignee != null && !assignee.isEmpty()) {
+//            tasks = taskService.findByAssignee(assignee);
+//        } else {
+//            tasks = taskService.findAll();
+//        }
+//
+//        model.put("tasks", tasks);
+//        model.put("uniqAssignee", uniqAssignee);
+//        return "index";
+//    }
 
-        if (assignee != null && !assignee.isEmpty()) {
+    @PostMapping("filterByDateAndAssignee")
+    public String filterDateAndAssignee(@RequestParam Date startDate, @RequestParam Date endDate, @RequestParam String period, @RequestParam String assignee, Map<String, Object> model) {
+        Iterable<Task> tasks;
+
+        if (!period.equals("")) {
+            startDate = StartDayReplace.getDate(period);
+            endDate = EndDayReplace.getDate(period);
+        }
+
+        if (startDate == null && endDate == null && !assignee.isEmpty()) {
             tasks = taskService.findByAssignee(assignee);
+//        } else if (startDate != null && endDate != null && !assignee.isEmpty()) {
+//            tasks = taskService.findByAssigneeAndStartDateBeforeAndEndDateAfterOrAssigneeAndStartDateOrAssigneeAndEndDate(assignee, endDate, startDate, assignee, startDate, assignee, endDate);
+//        } else if (startDate != null && endDate != null && assignee.isEmpty()) {
+//            tasks = taskService.findByStartDateBeforeAndEndDateAfterOrStartDateOrEndDate(endDate, startDate, endDate, startDate);
         } else {
             tasks = taskService.findAll();
         }
 
-        model.put("tasks", tasks);
+        if (!tasks.iterator().hasNext()) {
+            model.put("messageNotFound", "Not found by your filter");
+        }
+
+        model.put("messageSelectedFilter", MessageSelectedFilter.getMessageSelectedFilter(assignee, startDate, endDate));
         model.put("uniqAssignee", uniqAssignee);
+        model.put("tasks", tasks);
         return "index";
     }
-
-
-//    @PostMapping("/addTask")
-//    public String addTask(@ModelAttribute("task")Task task){
-//        if (task.getSummary().isEmpty()||task.getAssignee().isEmpty()||task.getEndDate()==null||task.getStartDate()==null){
-//            return "createTask";
-//        }else {
-//        taskService.save(task);
-//        return "redirect:/tasks";}
 }
