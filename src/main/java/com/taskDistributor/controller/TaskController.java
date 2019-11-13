@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,7 +38,6 @@ public class TaskController {
         }
         model.addAttribute("uniqAssignee", uniqAssignee);
         model.addAttribute("tasks", tasks);
-
         return "index";
     }
 
@@ -55,10 +53,7 @@ public class TaskController {
             return "createTask";
         } else {
             Task task = new Task(summary, startDate, endDate, assignee);
-            System.out.println(summary + " " + assignee + " " + startDate + " " + endDate);
-            System.out.println(task.getAssignee());
             taskService.save(task);
-
             Iterable<Task> tasks = taskService.findAll();
             uniqAssignee.add(task.getAssignee());
             model.put("uniqAssignee", uniqAssignee);
