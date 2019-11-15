@@ -38,13 +38,13 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public List<Task> findByStartDateAndEndDate(Date startDate, Date endDate) {
-        String sql = "SELECT * FROM task where startDate >=? and endDate <=?";
-        return jdbcTemplate.query(sql, new TaskMapper(), startDate,endDate);
+        String sql = "SELECT * FROM task where startDate <=? and endDate >=?";
+        return jdbcTemplate.query(sql, new TaskMapper(), endDate,startDate);
     }
 
     @Override
     public List<Task> findByAssigneeStartDateAndEndDate(String assignee, Date startDate, Date endDate) {
-        String sql = "SELECT * FROM task where startDate >=? and endDate <=? and assignee=?";
-        return jdbcTemplate.query(sql, new TaskMapper(), startDate,endDate,assignee);
+        String sql = "SELECT * FROM task where startDate <=? and endDate >=? and assignee=?";
+        return jdbcTemplate.query(sql, new TaskMapper(), endDate,startDate,assignee);
     }
 }
